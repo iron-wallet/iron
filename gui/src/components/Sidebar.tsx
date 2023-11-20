@@ -178,10 +178,14 @@ export function Sidebar() {
               },
             }}
           >
-            <QuickWalletSelect />
-            <QuickAddressSelect />
-            <QuickNetworkSelect />
-            <QuickFastModeToggle />
+            <div data-homepage-tour="quick-select">
+              <QuickWalletSelect />
+              <QuickAddressSelect />
+              <QuickNetworkSelect />
+            </div>
+            <div data-homepage-tour="fast-mode">
+              <QuickFastModeToggle />
+            </div>
           </Stack>
           <Stack
             p={3}
@@ -192,7 +196,9 @@ export function Sidebar() {
               },
             }}
           >
-            <CommandBarButton />
+            <div data-homepage-tour="command-bar">
+              <CommandBarButton />
+            </div>
             <SettingsButton />
           </Stack>
         </Box>
