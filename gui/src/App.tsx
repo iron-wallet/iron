@@ -3,6 +3,7 @@ import "react18-json-view/src/style.css";
 
 import { GlobalStyles, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import { invoke } from "@tauri-apps/api/tauri";
 import { SnackbarProvider } from "notistack";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Route, Router, Switch } from "wouter";
@@ -20,8 +21,9 @@ import {
   WalletUnlockDialog,
 } from "@/components/Dialogs";
 import { Onboarding } from "@/components/Onboarding";
-
-import { useTheme } from "./store/theme";
+import TourWrapper from "@/components/Tour";
+import { homepageSteps } from "@/components/Tour/Steps";
+import { useTheme } from "@/store/theme";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { suspense: true } },
@@ -81,7 +83,12 @@ function Routes() {
             dense
           >
             <CommandBar>
-              <HomePage />
+              <TourWrapper
+                onClose={() => invoke("settings_finish_homepage_tour")}
+                steps={homepageSteps}
+              >
+                <HomePage />
+              </TourWrapper>
             </CommandBar>
           </SnackbarProvider>
         </Route>
