@@ -1,7 +1,7 @@
 export { ABIForm } from "./ABIForm";
 export { Account } from "./Account";
 export { AddressView } from "./AddressView";
-export { BalancesList } from "./BalancesList";
+export { Balances } from "./Balances";
 export { CalldataView } from "./Calldata";
 export { CommandBar } from "./CommandBar";
 export { CommandBarButton } from "./CommandBarButton";
@@ -31,3 +31,4 @@ export { SettingsButton } from "./SettingsButton";
 export { TransferForm } from "./TransferForm";
 export { Txs } from "./Txs";
 export { WagmiWrapper } from "./WagmiWrapper";
+export { Nfts } from "./Nfts";

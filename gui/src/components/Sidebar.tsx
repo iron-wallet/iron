@@ -3,6 +3,7 @@ import {
   OnlinePredictionSharp,
   Receipt,
   RequestQuoteSharp,
+  Image,
 } from "@mui/icons-material";
 import { Box, Button, Drawer, IconButton, Stack, Toolbar } from "@mui/material";
 import { blue } from "@mui/material/colors";
@@ -18,6 +19,7 @@ import {
   CommandBarButton,
   Connections,
   Contracts,
+  Nfts,
   Logo,
   QuickAddressSelect,
   QuickFastModeToggle,
@@ -33,6 +35,12 @@ export const TABS = [
     name: "Account",
     component: Account,
     icon: RequestQuoteSharp,
+  },
+  {
+    path: "nfts",
+    name: "NFTs",
+    component: Nfts,
+    icon: Image,
   },
   {
     path: "transactions",
