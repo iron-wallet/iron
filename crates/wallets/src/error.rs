@@ -50,6 +50,12 @@ pub enum Error {
 
     #[error("Ledger error: {0}")]
     Ledger(String),
+
+    #[error(transparent)]
+    GPGME(#[from] gpgme::Error),
+
+    #[error(transparent)]
+    FromUtf8(#[from] std::string::FromUtf8Error),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

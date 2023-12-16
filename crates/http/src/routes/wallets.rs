@@ -21,7 +21,9 @@ pub(super) fn router() -> Router<Ctx> {
         .route("/current_path", post(set_current_path))
         .route("/wallet_addresses", get(get_wallet_addresses))
         .route("/mnemonic_addresses", get(get_mnemonic_addresses))
+        .route("/mnemonic_addresses_from_pgp", get(get_mnemonic_addresses))
         .route("/validate_mnemonic", get(validate_mnemonic))
+        .route("/read_pgp_secret", get(read_pgp_secret))
 }
 
 #[derive(Debug, Deserialize)]
@@ -118,6 +120,26 @@ pub(crate) async fn get_mnemonic_addresses(
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct GetMnemonicAddressesFromPGPPayload {
+    file: String,
+    derivation_path: String,
+}
+
+// not sure if this works as the command returns Result<Vec<(String, Address)>>
+pub(crate) async fn get_mnemonic_addresses_from_pgp(
+    Query(payload): Query<GetMnemonicAddressesFromPGPPayload>,
+) -> Json<Vec<(String, Address)>> {
+    Json(
+        iron_wallets::commands::wallets_get_mnemonic_addresses_from_pgp(
+            payload.file,
+            payload.derivation_path,
+        )
+        .await,
+    )
+}
+
+#[derive(Debug, Deserialize)]
 pub(crate) struct ValidateMnemonicPayload {
     mnemonic: String,
 }
@@ -128,4 +150,13 @@ pub(crate) async fn validate_mnemonic(
     Json(iron_wallets::commands::wallets_validate_mnemonic(
         payload.mnemonic,
     ))
+}
+
+#[derive(Debug, Deserialize)]
+pub(crate) struct ReadPGPSecretPayload {
+    path: String,
+}
+
+pub(crate) async fn read_pgp_secret(Query(payload): Query<ReadPGPSecretPayload>) -> Json<String> {
+    Json(iron_wallets::commands::read_pgp_secret(payload.path))
 }
