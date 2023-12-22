@@ -2,6 +2,7 @@ import { KeyboardArrowDown } from "@mui/icons-material";
 import {
   Button,
   Chip,
+  ListItemIcon,
   Menu,
   MenuItem,
   Paper,
@@ -13,6 +14,7 @@ import { startCase } from "lodash-es";
 import { useState } from "react";
 
 import { Wallet, walletTypes } from "@iron/types/wallets";
+import { IconWalletType } from "@iron/react/components";
 import { Accordion, AccordionDetails, AccordionSummary } from "@/components";
 import { useWallets } from "@/store";
 import { HDWalletForm } from "./Wallet/HDWallet";
@@ -170,6 +172,9 @@ const AddWalletButton = ({ onChoice }: AddWalletButtonProps) => {
             sx={{ textTransform: "capitalize" }}
             onClick={() => handleChoice(walletType)}
           >
+            <ListItemIcon>
+              <IconWalletType type={walletType} />
+            </ListItemIcon>
             {startCase(walletType)}
           </MenuItem>
         ))}
