@@ -76,6 +76,7 @@ export function setupProviderConnection(port: Runtime.Port) {
         ws.send("pong");
         return;
       }
+
       // forward WS server messages back to the stream (content script)
       const data = JSON.parse(event.data);
       port.postMessage(data);

@@ -40,8 +40,9 @@
     "prettier": "^3.1.1"
   },
   "dependencies": {
-    "@tauri-apps/cli": "^1.5.7",
-    "typescript": "5.3.3"
+    "@devtools-ds/icon": "^1.2.1",
+    "@tauri-apps/cli": "^1.5.6",
+    "typescript": "5.3.2"
   },
   "resolutions": {
     "postcss": "^8.4.31"
