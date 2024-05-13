@@ -2,6 +2,7 @@ use std::{collections::HashMap, net::SocketAddr};
 
 use ethui_types::GlobalState;
 use futures::{stream::SplitSink, SinkExt, StreamExt};
+use jsonrpsee::types::ErrorObjectOwned;
 use tokio::{
     net::{TcpListener, TcpStream},
     sync::mpsc,
@@ -16,20 +17,43 @@ use url::Url;
 
 pub use crate::error::{WsError, WsResult};
 use crate::peers::{Peer, Peers};
+use jsonrpsee::proc_macros::rpc;
+use jsonrpsee::server::Server;
+use jsonrpsee::ConnectionDetails;
+
+#[rpc(server)]
+pub trait Rpc {
+    #[method(name = "say_hello", raw_method)]
+    async fn say_hello(&self) -> Result<(), ErrorObjectOwned>;
+}
+
+struct RpcServerImpl;
+#[async_trait::async_trait]
+impl RpcServer for RpcServerImpl {
+    async fn say_hello(&self, conn: ConnectionDetails) -> Result<(), ErrorObjectOwned> {
+        dbg!(&conn);
+        Ok(())
+    }
+}
 
 pub(crate) async fn server_loop(port: u16) {
     let addr = format!("127.0.0.1:{}", port);
-    let listener = TcpListener::bind(&addr).await.expect("Can't listen to");
+    // let listener = TcpListener::bind(&addr).await.expect("Can't listen to");
 
     tracing::debug!("WS server listening on: {}", addr);
 
-    while let Ok((stream, _)) = listener.accept().await {
-        let peer = stream
-            .peer_addr()
-            .expect("connected streams should have a peer address");
+    let server = Server::builder().build(addr).await.unwrap();
+    let handle = server.start(RpcServerImpl.into_rpc());
 
-        tokio::spawn(accept_connection(peer, stream));
-    }
+    tokio::spawn(handle.stopped()).await;
+
+    // while let Ok((stream, _)) = listener.accept().await {
+    //     let peer = stream
+    //         .peer_addr()
+    //         .expect("connected streams should have a peer address");
+    //
+    //     tokio::spawn(accept_connection(peer, stream));
+    // }
 }
 
 async fn accept_connection(socket: SocketAddr, stream: TcpStream) {
