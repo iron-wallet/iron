@@ -1,23 +1,13 @@
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { Box, GlobalStyles, ThemeProvider } from "@mui/material";
+import { GlobalStyles, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import { DevBuildNotice, ErrorHandler } from "@/components";
+import { ErrorHandler } from "@/components";
 import { useTheme } from "@/store/theme";
 
 const queryClient = new QueryClient();
-
-const RouterDevtools =
-  process.env.NODE_ENV === "production"
-    ? () => null
-    : lazy(() =>
-        import("@tanstack/router-devtools").then((res) => ({
-          default: res.TanStackRouterDevtools,
-        })),
-      );
 
 const globalStyles = {
   body: { userSelect: "none" },
@@ -40,16 +30,8 @@ function Root() {
       <CssBaseline>
         <ErrorHandler>
           <QueryClientProvider client={queryClient}>
-            <DevBuildNotice />
             <Suspense>
               <Outlet />
-            </Suspense>
-
-            <Suspense>
-              <Box sx={{ position: "absolute", bottom: 50, left: 0 }}>
-                <ReactQueryDevtools buttonPosition="relative" />
-              </Box>
-              <RouterDevtools position="bottom-left" />
             </Suspense>
           </QueryClientProvider>
         </ErrorHandler>

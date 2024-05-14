@@ -7,7 +7,7 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import { lightBlue } from "@mui/material/colors";
+import { lightBlue, grey } from "@mui/material/colors";
 import { Link, useMatchRoute } from "@tanstack/react-router";
 
 import { useTheme } from "@/store";
@@ -35,11 +35,14 @@ export function SidebarButton<R extends React.ElementType>({
       disabled={!!params}
       {...props}
       sx={{
-        height: 32,
+        height: 40,
         justifyContent: "flex-start",
-        transition: theme.transitions.create("border-radius"),
+        transition: theme.transitions.create([
+          "border-radius",
+          "background-color",
+        ]),
         [theme.breakpoints.up("sm")]: {
-          borderRadius: 1,
+          borderRadius: 0,
           paddingLeft: "8px",
         },
         [theme.breakpoints.down("sm")]: {

@@ -1,9 +1,11 @@
+import { lazy, Suspense } from "react";
 import { SettingsSharp, TerminalSharp } from "@mui/icons-material";
-import { Drawer, Stack, SxProps, Toolbar } from "@mui/material";
+import { Drawer, Stack, SxProps, Toolbar, Box } from "@mui/material";
 import { parseInt, range } from "lodash-es";
 import { useKBar } from "kbar";
 import { invoke } from "@tauri-apps/api";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { type Tab } from "@ethui/types/ui";
 import { useKeyPress, useMenuAction, useOS } from "@/hooks";
@@ -18,6 +20,16 @@ import {
   Settings,
   SidebarButton,
 } from "@/components";
+import { isProd } from "@/utils";
+
+const RouterDevtools =
+  process.env.NODE_ENV === "production"
+    ? () => null
+    : lazy(() =>
+        import("@tanstack/router-devtools").then((res) => ({
+          default: res.TanStackRouterDevtools,
+        })),
+      );
 
 interface SidebarProps {
   sx?: SxProps;
@@ -74,10 +86,10 @@ export function Sidebar({ sx, tabs }: SidebarProps) {
 
   return (
     <Drawer PaperProps={{ variant: "lighter", sx }} variant="permanent">
-      <Toolbar sx={{ p: 2 }} data-tauri-drag-region="true">
+      <Toolbar data-tauri-drag-region="true" sx={{ p: 0 }}>
         {type !== "Darwin" && <Logo width={40} />}
       </Toolbar>
-      <Stack px={2} rowGap={1} flexGrow={1}>
+      <Stack flexGrow={1}>
         {tabs.map(({ path, label, icon }, index) => (
           <SidebarButton
             key={index}
@@ -90,7 +102,7 @@ export function Sidebar({ sx, tabs }: SidebarProps) {
       </Stack>
       <Stack
         rowGap={2}
-        p={3}
+        p={1}
         sx={{
           [breakpoint]: {
             display: "none",
@@ -102,7 +114,7 @@ export function Sidebar({ sx, tabs }: SidebarProps) {
         <QuickNetworkSelect />
         <QuickFastModeToggle />
       </Stack>
-      <Stack p={3} rowGap={1}>
+      <Stack p={1} rowGap={1}>
         <SidebarButton
           onClick={kbar.query.toggle}
           icon={TerminalSharp}

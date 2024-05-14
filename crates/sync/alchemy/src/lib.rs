@@ -59,8 +59,6 @@ impl Alchemy {
             .get_asset_transfers(Direction::To(address), from_block, latest)
             .await?;
 
-        tracing::trace!("inc {}, out {}", inc.0.len(), out.0.len());
-
         let tip = out
             .0
             .iter()

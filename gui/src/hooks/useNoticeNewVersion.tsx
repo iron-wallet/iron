@@ -4,6 +4,7 @@ import { SnackbarKey, useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 
 import { useInvoke } from "./useInvoke";
+import { isProd } from "@/utils";
 
 export async function getLatestVersion() {
   const response = await fetch(
@@ -25,7 +26,7 @@ export function useNoticeNewVersion() {
   }, [setLatest]);
 
   useEffect(() => {
-    if (!latest || current === latest) return;
+    if (!isProd || !latest || current === latest) return;
 
     key = enqueueSnackbar(
       <Link
