@@ -25,14 +25,17 @@ export default defineConfig(() => ({
 	// to make use of `TAURI_DEBUG` and other env variables
 	// https://tauri.studio/v1/api/config#buildconfig.beforedevcommand
 	envPrefix: ["VITE_"],
+
 	build: {
 		// Tauri supports es2021
-		target: process.env.TAURI_PLATFORM == "windows" ? "chrome105" : "safari14",
+		target:
+			process.env.TAURI_ENV_PLATFORM == "windows" ? "chrome105" : "safari14",
 		// don't minify for debug builds
-		minify: !process.env.TAURI_DEBUG ? ("esbuild" as const) : false,
+		minify: !process.env.TAURI_ENV_DEBUG ? ("esbuild" as const) : false,
 		// produce sourcemaps for debug builds
-		sourcemap: !!process.env.TAURI_DEBUG,
+		sourcemap: !!process.env.TAURI_ENV_DEBUG,
 	},
+
 	test: {
 		globals: true,
 		environment: "jsdom",
@@ -43,4 +46,3 @@ export default defineConfig(() => ({
 			reporter: ["text", "json", "html"],
 		},
 	},
-}));
