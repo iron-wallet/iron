@@ -5,7 +5,6 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "prettier",
   ],
   plugins: ["react", "@typescript-eslint", "import"],
 
@@ -30,6 +29,7 @@ module.exports = {
     "gui/dist/*",
     "target/*",
     ".yarn/*",
+    "**/dist/**",
   ],
 
   settings: {
@@ -70,7 +70,7 @@ module.exports = {
     "import/no-mutable-exports": "error",
     "import/no-named-as-default": "error",
     "import/no-unused-modules": "error",
-    "import/no-unresolved": ["error", {ignore: ["bun:test"]}],
+    "import/no-unresolved": ["error", { ignore: ["bun:test"] }],
     "import/no-import-module-exports": "error",
     "import/first": "error",
     "import/newline-after-import": "error",
