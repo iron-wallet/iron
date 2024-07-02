@@ -1,6 +1,7 @@
 export { ABIForm, ABIItemForm } from "./ABIForm";
 export { AddressView } from "./AddressView";
 export { BalancesList } from "./BalancesList";
+export { BalancesDenylist } from "./BalancesDenylist";
 export { CommandBar } from "./CommandBar";
 export { ConfirmationDialog } from "./ConfirmationDialog";
 export { ContextMenuWithTauri } from "./ContextMenuWithTauri";
